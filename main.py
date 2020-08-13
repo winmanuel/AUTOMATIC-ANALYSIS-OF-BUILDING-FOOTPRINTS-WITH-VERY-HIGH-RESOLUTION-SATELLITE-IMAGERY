@@ -30,24 +30,14 @@ if geotransform:
 # for i in range(len(numpy_array)-1): #a1 is the array in question
 #   plt.hist2d(numpy_array[i,:,0],numpy_array[i,0,:])
 #  plt.show()
-plt.style.use('seaborn-white')
+
 # iterating through the first dimension
-numpy_array = np.arange(4 * 380 * 370).reshape(4, 380, 370)
+# numpy_array = np.arange(4 * 380 * 370).reshape(4, 380, 370)
 
-numpy_array.shape
-np.iterable(numpy_array)
-for a in numpy_array:
-    plt.hist(a)
-    # plt.show()
-
-    fig, (axdsm, axdtm, axchm) = plt.subplots(1, 3, figsize=(21, 7))
-    plt.hist(a, bins=100, lw=0.0, stacked=False, alpha=0.3, )
-    plt.show()
-    print(a.shape)
-    #   print(a)
-
-
-
+data = dataset.GetRasterBand(1).ReadAsArray()
+array_band1 = np.array(data)
+plt.hist(array_band1)
+plt.show()
 
 
 """fig = plt.figure()
