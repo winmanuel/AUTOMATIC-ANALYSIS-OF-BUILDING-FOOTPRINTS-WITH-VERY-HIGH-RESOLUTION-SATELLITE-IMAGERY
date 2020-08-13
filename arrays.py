@@ -18,8 +18,6 @@ s_image_ds = gdal.Open(s_image)
 # getting number of bands
 nbands = s_image_ds.RasterCount
 band_data = []
-print('bands', s_image_ds.RasterCount, 'rows', s_image_ds.RasterYSize, 'columns',
-      s_image_ds.RasterXSize)
 
 
 # appending each raster band to the list
@@ -27,9 +25,10 @@ for i in range(1, nbands + 1):
     band = s_image_ds.GetRasterBand(i).ReadAsArray()
     band_data.append(band)
 band_data = np.dstack(band_data)
-print(band_data.shape)
+print(band_data)
 
-#########
+"""
+# ########
 
 img = exposure.rescale_intensity(band_data)
 
@@ -45,4 +44,4 @@ segments_ds = driverTiff.Create(segments_fn, s_image_ds.RasterXSize, s_image_ds.
 segments_ds.SetGeoTransform(s_image_ds.GetGeoTransform())
 segments_ds.SetProjection(s_image_ds.GetProjectionRef())
 segments_ds.GetRasterBand(1).WriteArray(segments)
-segments_ds = None
+segments_ds = None"""
