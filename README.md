@@ -19,4 +19,14 @@ During the project, the problem of object detection approached a kind-of novel, 
   - Neighbor groups etc...
 
 By iteratively calling group functions, the groups can be connected to each other.
-Buildings can be queried from gropus: By mean RGB value, area, angles (space syntax - grammar, language processors?)
+Buildings can be queried from gropus: 
+- By mean RGB value, area, angles (space syntax - grammar, language processors?)
+
+Try to use less amount of Python packages in the long-term-reseach:
+- *numpy* (thats the base): numpy uses Cython calls (fastened with C)
+- and if other packages avoided numpy can be toward fastened with *numba* package which can use GPU 
+- for data visualisation *altair* package advised (in another file)
+
+Used structures:
+- vectors, matrices, arrays, sets, dictionaries, functions (maybe classes)
+- if the problem handled in a 'vectorized' manner (less class) faster evaluations garanteed
