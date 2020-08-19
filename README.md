@@ -19,4 +19,4 @@ During the project, the problem of object detection approached a kind-of novel, 
   - Neighbor groups etc...
 
 By iteratively calling group functions, the groups can be connected to each other.
-Buildings can be queried from gropus: By mean RGB value, area etc.
+Buildings can be queried from gropus: By mean RGB value, area, angles (space syntax - grammar, language processors?)
