@@ -1,3 +1,7 @@
+## Bottom-up microsimulation of object-detection
+## Authors: Godwin Emmanuel, Ervin Wirth
+## No rights reserved
+
 """this is a test code"""
 import gdal
 import numpy
