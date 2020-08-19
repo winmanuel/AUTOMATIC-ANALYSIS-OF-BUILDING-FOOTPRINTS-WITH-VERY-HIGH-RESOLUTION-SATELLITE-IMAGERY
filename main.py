@@ -1,10 +1,10 @@
 """this is a test code"""
 import gdal
 import numpy
-# from matplotlib import pyplot as plt
-import altair as alt
-from vega_datasets import data
-import pandas as pd
+from matplotlib import pyplot as plt
+#import altair as alt
+#from vega_datasets import data
+#import pandas as pd
 import os
 
 """ osgeo has to be installed first
@@ -65,10 +65,14 @@ array_band4 = numpy.array(data4)
 
 #data = pd.DataFrame(array_band4)
 data_in_row = numpy.matrix.flatten(array_band4)
-data = {'band4': data_in_row}
-df = pd.DataFrame(data) 
+plt.hist(data_in_row, 100)
+plt.figure()
+plt.show()
 
-alt.Chart(df).mark_bar().encode(alt.X("band4", bin=alt.Bin(extent=[0, 1], step=0.05)), y='count()',)
+#data = {'band4': data_in_row}
+#df = pd.DataFrame(data) 
+
+#alt.Chart(df).mark_bar().encode(alt.X("band4", bin=alt.Bin(extent=[0, 1], step=0.05)), y='count()',)
 
 # alt.Chart(source).mark_bar().encode(
     # alt.X("IMDB_Rating:Q", bin=True),
