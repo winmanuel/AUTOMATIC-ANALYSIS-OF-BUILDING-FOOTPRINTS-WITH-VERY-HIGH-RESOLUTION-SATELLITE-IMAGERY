@@ -1,12 +1,12 @@
 """this is a test code"""
 import gdal
 import numpy as np
-# from matplotlib import pyplot as plt
+from matplotlib import pyplot as plt
 import altair as alt
 from vega_datasets import data
 import pandas as pd
 
-""" osgeo has to be installed first
+""" osgeo has to be installed fisrt
 Download a proper GDAL wheel file (.whl) from here:
  https://www.lfd.uci.edu/~gohlke/pythonlibs/#gdal
  After install it with pip: pip install path_to_wheelfile.whl
@@ -28,6 +28,13 @@ if geotransform:
     print("Origin = ({}, {})".format(geotransform[0], geotransform[3]))
     print("Pixel Size = ({}, {})".format(geotransform[1], geotransform[5]))
 
+# print(numpy_array)
+# for i in range(len(numpy_array)-1): #a1 is the array in question
+#   plt.hist2d(numpy_array[i,:,0],numpy_array[i,0,:])
+#  plt.show()
+
+# iterating through the first dimension
+# numpy_array = np.arange(4 * 380 * 370).reshape(4, 380, 370)
 
 # for band 1
 data1 = dataset.GetRasterBand(1).ReadAsArray()
@@ -52,18 +59,23 @@ data4 = dataset.GetRasterBand(4).ReadAsArray()
 array_band4 = np.array(data4)
 # plt.plot(array_band4)
 # plt.show()
+test12 = data.array_band1()
+chart = alt.Chart(test12).mark_bar()
 
-data = pd.DataFrame(array_band4)
-alt.Chart(data).mark_bar().encode(
-    x='x',
-    y='y',
-)
+# np.savetxt("C:/Users/user/Desktop/remote sensing/main file/AUTOMATIC-ANALYSIS-OF-BUILDING-FOOTPRINTS-
+# WITH-VERY-HIGH-RESOLUTION-SATELLITE-IMAGERY/test.txt", data4)
+"""fig = plt.figure()
+ax = fig.gca(projection='3d')
 
+for x in range(len(numpy_array[:, 0, 0])):
+    for y in range(len(numpy_array[0, :, 0])):
+        for z in range(len(numpy_array[0, 0, :])):
+            ax.scatter(x, y, z, c=tuple([numpy_array[x, y, z], numpy_array[x, y, z], numpy_array[x, y, z], 1]))
+plt.show()"""
 
-print("------------------------------------------------")
-"""band = dataset.GetRasterBand(1)
+"""print("------------------------------------------------")
+band = dataset.GetRasterBand(1)
 print("Band Type={}".format(gdal.GetDataTypeName(band.DataType)))
-
 
 min = band.GetMinimum()
 max = band.GetMaximum()
@@ -75,6 +87,10 @@ if band.GetOverviewCount() > 0:
     print("Band has {} overviews".format(band.GetOverviewCount()))
 
 if band.GetRasterColorTable():
-    print("Band has a color table with {} entries".format(band.GetRasterColorTable().GetCount()))"""
+    print("Band has a color table with {} entries".format(band.GetRasterColorTable().GetCount()))
 
+data = np.random.randn(1000)
+plt.hist(data, 5)
+# plt.show()
+print(data.itemsize) """
 # Try to some statistics first, e.g. with numpy
