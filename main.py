@@ -1,14 +1,14 @@
-## Bottom-up microsimulation of object-detection
-## Authors: Godwin Emmanuel, Ervin Wirth
-## No rights reserved
+# Bottom-up microsimulation of object-detection
+# Authors: Godwin Emmanuel, Ervin Wirth
+# No rights reserved
 
 """this is a test code"""
 import gdal
 import numpy
 from matplotlib import pyplot as plt
-#import altair as alt
-#from vega_datasets import data
-#import pandas as pd
+# import altair as alt
+# from vega_datasets import data
+# import pandas as pd
 import os
 
 """ osgeo has to be installed first
@@ -19,7 +19,7 @@ Download a proper GDAL wheel file (.whl) from here:
 
 # pip install altair_viewer
 # Needed if other renderer hadn't set up
-alt.renderers.enable('altair_viewer')
+# alt.renderers.enable('altair_viewer')
  
 workspace_path = os.path.dirname(__file__) 
  
@@ -67,20 +67,30 @@ array_band4 = numpy.array(data4)
 # plt.plot(array_band4)
 # plt.show()
 
-#data = pd.DataFrame(array_band4)
+# data = pd.DataFrame(array_band4)
 data_in_row = numpy.matrix.flatten(array_band4)
 plt.hist(data_in_row, 100)
 plt.figure()
-plt.show()
+# plt.show()
 
-#data = {'band4': data_in_row}
-#df = pd.DataFrame(data) 
+filter_array = []
+for x in data4:
+    if (x > 0).all():
+        filter_array.append(True)
+    else:
+        filter_array.append(False)
 
-#alt.Chart(df).mark_bar().encode(alt.X("band4", bin=alt.Bin(extent=[0, 1], step=0.05)), y='count()',)
+data_array = data4[filter_array]
+print(filter_array)
+
+# data = {'band4': data_in_row}
+# df = pd.DataFrame(data)
+
+# alt.Chart(data_in_row).mark_bar().encode(alt.X("band4", bin=alt.Bin(extent=[0, 1], step=0.05)), y='count()',)
 
 # alt.Chart(source).mark_bar().encode(
-    # alt.X("IMDB_Rating:Q", bin=True),
-    # y='count()',
+#    alt.X("IMDB_Rating:Q", bin=True),
+#    y='count()',
 # )
 
 print("------------------------------------------------")
