@@ -23,8 +23,8 @@ Download a proper GDAL wheel file (.whl) from here:
  
 workspace_path = os.path.dirname(__file__) 
  
-raster_path = r"C:\Users\user\Desktop\remote sensing\main file\AUTOMATIC-ANALYSIS-OF-BUILDING-FOOTPRINTS-" \
-              r"WITH-VERY-HIGH-RESOLUTION-SATELLITE-IMAGERY\PL_PS_20200723T0742_ALL_Tile_0_0_qKSm9prB.tif"
+# raster_path = r"C:\Users\user\Desktop\remote sensing\main file\AUTOMATIC-ANALYSIS-OF-BUILDING-FOOTPRINTS-" \
+#             r"WITH-VERY-HIGH-RESOLUTION-SATELLITE-IMAGERY\PL_PS_20200723T0742_ALL_Tile_0_0_qKSm9prB.tif"
 
 raster_path = workspace_path + "/PL_PS_20200723T0742_ALL_Tile_0_0_qKSm9prB.tif"
               
@@ -67,14 +67,18 @@ array_band4 = numpy.array(data4)
 # plt.plot(array_band4)
 # plt.show()
 
+array2 = numpy.argwhere(array_band4)
+print('this is array2', len(array2))
+
 # data = pd.DataFrame(array_band4)
-data_in_row = numpy.matrix.flatten(array_band4)
+data_in_row = numpy.matrix.flatten(array2)
 plt.hist(data_in_row, 100)
 plt.figure()
 # plt.show()
 
+
 filter_array = []
-for x in data4:
+for x in array_band4:
     if (x > 0).all():
         filter_array.append(True)
     else:
@@ -82,7 +86,7 @@ for x in data4:
 
 data_array = data4[filter_array]
 print(filter_array)
-
+print('trials', numpy.nonzero(array_band4 > 0))
 # data = {'band4': data_in_row}
 # df = pd.DataFrame(data)
 
@@ -92,6 +96,5 @@ print(filter_array)
 #    alt.X("IMDB_Rating:Q", bin=True),
 #    y='count()',
 # )
-
 
 # Try to some statistics first, e.g. with numpy
