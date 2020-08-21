@@ -2,23 +2,11 @@
 # Authors: Godwin Emmanuel, Ervin Wirth
 # No rights reserved
 
-"""this is a test code"""
 import gdal
 import numpy
 from matplotlib import pyplot as plt
-# import pandas as pd
 import os
 
-""" osgeo has to be installed first
-Download a proper GDAL wheel file (.whl) from here:
- https://www.lfd.uci.edu/~gohlke/pythonlibs/#gdal
- After install it with pip: pip install path_to_wheelfile.whl
- Then the 'osgeo import' shall work"""
-
-# pip install altair_viewer
-# Needed if other renderer hadn't set up
-# alt.renderers.enable('altair_viewer')
- 
 workspace_path = os.path.dirname(__file__) 
  
 # raster_path = r"C:\Users\user\Desktop\remote sensing\main file\AUTOMATIC-ANALYSIS-OF-BUILDING-FOOTPRINTS-" \
@@ -41,72 +29,50 @@ if geotransform:
     print("Pixel Size = ({}, {})".format(geotransform[1], geotransform[5]))
 
 
-# for band 1
+
+                    ### Histogram for band 1
+# Read data
 data1 = dataset.GetRasterBand(1).ReadAsArray()
 array_band1 = numpy.array(data1)
-# plt.hist(array_band1)
-# plt.show()
+# Clean zeros from array, transform to vector
+nonzero_vector_band1 = array_band1[numpy.nonzero(array_band1)]
+plt.hist(nonzero_vector_band1, bins=100)
+plt.show()
 
-# for band 2
+                    ### Start the analysis
+
+data1 = dataset.GetRasterBand(1).ReadAsArray()
+array_band1 = numpy.array(data1)
 data2 = dataset.GetRasterBand(2).ReadAsArray()
 array_band2 = numpy.array(data2)
-# plt.hist(array_band2)
-# plt.show()
-
-# for band 3
 data3 = dataset.GetRasterBand(3).ReadAsArray()
 array_band3 = numpy.array(data3)
-# plt.hist(array_band3)
-# plt.show()
-
-# for band 4
 data4 = dataset.GetRasterBand(4).ReadAsArray()
 array_band4 = numpy.array(data4)
-# plt.plot(array_band4)
-# plt.show()
 
-# flattening into 1D array
-data_in_row4 = numpy.matrix.flatten(data4)
-plt.hist(data_in_row4, bins=5)
-# removing zeros from array
-new_array4 = numpy.argwhere(data_in_row4)
-plt.hist(new_array4, bins=5)
-# plt.figure()
-# plt.show()
-# same for band 1
-data_in_row1 = numpy.matrix.flatten(data1)
-plt.hist(data_in_row1, bins=5)
+# this should be created by using indices
+segmentids_initial_test = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
 
-new_array1 = numpy.argwhere(data_in_row1)
-print("------------------------------------------")
-""
-filter_array = []
-for x in array_band4:
-    if (x > 0).all():
-        filter_array.append(True)
-    else:
-        filter_array.append(False)
+for i in range(array_band1.shape[0]):
+  print(i)
+  for j in range(array_band1.shape[0]):
+    print(j)
+    test_connections(i, j)
 
-data_array = data4[filter_array]
+def test_connections(i, j ):
+  # test east edge
+  if test_similarity(i, j, i + 1, j):
+    # rewrite segmentids
+  # test south-east edge
+  if test_similarity(i, j, i + 1, j + 1):
+    # rewrite segmentids
+  # test south edge
+  if test_similarity(i, j, i, j + 1):
+    # rewrite segmentids
 
-# data = {'band4': data_in_row}
-# df = pd.DataFrame(data)
-
-# alt.Chart(data_in_row).mark_bar().encode(alt.X("band4", bin=alt.Bin(extent=[0, 1], step=0.05)), y='count()',)
-
-# alt.Chart(source).mark_bar().encode(
-#    alt.X("IMDB_Rating:Q", bin=True),
-#    y='count()',
-# ) """
-
-# Try to some statistics first, e.g. with numpy
-print("------------------------------------------")
-
-
-print(data1 == data4)
-numpy.savetxt("C:/Users/user/Desktop/remote sensing/main file/AUTOMATIC-ANALYSIS-OF-"
-              "BUILDING-FOOTPRINTS-WITH-VERY-HIGH-RESOLUTION-SATELLITE-IMAGERY/test4.txt", new_array4)
-numpy.savetxt("C:/Users/user/Desktop/remote sensing/main file/AUTOMATIC-ANALYSIS-OF-"
-              "BUILDING-FOOTPRINTS-WITH-VERY-HIGH-RESOLUTION-SATELLITE-IMAGERY/test1.txt", new_array1)
-
-print(data_array)
+def test_similarity(c1_x, c1_y, c2_x, c2_y):
+  diff_band1 = array_band1[c1_x][c1_y] - array_band1[c2_x][c2_y]
+  diff_band2 = array_band2[c1_x][c1_y] - array_band2[c2_x][c2_y]
+  # ... You should continue the coding
+  
+#numpy.savetxt(workspace_path + "/test1.txt", new_array1)
