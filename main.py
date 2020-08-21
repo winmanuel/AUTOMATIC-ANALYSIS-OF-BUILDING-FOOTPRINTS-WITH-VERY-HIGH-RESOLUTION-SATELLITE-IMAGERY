@@ -63,7 +63,7 @@ for i in range(array_band1.shape[0]):
         test_connections(i, j)
 
 
-def test_connections(i, j ):
+def test_connections(i, j):
 #    test east edge
     if test_similarity(i, j, i + 1, j):
 #       rewrite segmentids
