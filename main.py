@@ -32,12 +32,15 @@ if geotransform:
 
                     ### Histogram for band 1
 # Read data
-data1 = dataset.GetRasterBand(1).ReadAsArray()
-array_band1 = numpy.array(data1)
+data1a = dataset.GetRasterBand(1).ReadAsArray()
+array_band1a = numpy.array(data1a)
 # Clean zeros from array, transform to vector
-nonzero_vector_band1 = array_band1[numpy.nonzero(array_band1)]
-plt.hist(nonzero_vector_band1, bins=100)
+nonzero_vector_band1 = array_band1a[numpy.nonzero(array_band1a)]
+plt.hist(nonzero_vector_band1, bins=10)
 plt.show()
+# Read data
+
+
 
                     ### Start the analysis
 
@@ -51,28 +54,31 @@ data4 = dataset.GetRasterBand(4).ReadAsArray()
 array_band4 = numpy.array(data4)
 
 # this should be created by using indices
-segmentids_initial_test = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
+segment_ids_initial_test = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
 
 for i in range(array_band1.shape[0]):
-  print(i)
-  for j in range(array_band1.shape[0]):
-    print(j)
-    test_connections(i, j)
+    print(i)
+    for j in range(array_band1.shape[0]):
+        print(j)
+        test_connections(i, j)
+
 
 def test_connections(i, j ):
-  # test east edge
-  if test_similarity(i, j, i + 1, j):
-    # rewrite segmentids
+#    test east edge
+    if test_similarity(i, j, i + 1, j):
+#       rewrite segmentids
   # test south-east edge
-  if test_similarity(i, j, i + 1, j + 1):
+#  if test_similarity(i, j, i + 1, j + 1):
     # rewrite segmentids
   # test south edge
-  if test_similarity(i, j, i, j + 1):
-    # rewrite segmentids
+    if test_similarity(i, j, i, j + 1):
+#     rewrite segmentids
+
 
 def test_similarity(c1_x, c1_y, c2_x, c2_y):
   diff_band1 = array_band1[c1_x][c1_y] - array_band1[c2_x][c2_y]
   diff_band2 = array_band2[c1_x][c1_y] - array_band2[c2_x][c2_y]
   # ... You should continue the coding
-  
-#numpy.savetxt(workspace_path + "/test1.txt", new_array1)
+
+# numpy.savetxt(workspace_path + "/test1.txt", new_array1)
+
