@@ -6,8 +6,6 @@
 import gdal
 import numpy
 from matplotlib import pyplot as plt
-# import altair as alt
-# from vega_datasets import data
 # import pandas as pd
 import os
 
@@ -67,16 +65,21 @@ array_band4 = numpy.array(data4)
 # plt.plot(array_band4)
 # plt.show()
 
-array2 = numpy.argwhere(array_band4)
-print('this is array2', len(array2))
-
-# data = pd.DataFrame(array_band4)
-data_in_row = numpy.matrix.flatten(array2)
-plt.hist(data_in_row, 100)
-plt.figure()
+# flattening into 1D array
+data_in_row4 = numpy.matrix.flatten(data4)
+plt.hist(data_in_row4, bins=5)
+# removing zeros from array
+new_array4 = numpy.argwhere(data_in_row4)
+plt.hist(new_array4, bins=5)
+# plt.figure()
 # plt.show()
+# same for band 1
+data_in_row1 = numpy.matrix.flatten(data1)
+plt.hist(data_in_row1, bins=5)
 
-
+new_array1 = numpy.argwhere(data_in_row1)
+print("------------------------------------------")
+""
 filter_array = []
 for x in array_band4:
     if (x > 0).all():
@@ -85,8 +88,7 @@ for x in array_band4:
         filter_array.append(False)
 
 data_array = data4[filter_array]
-print(filter_array)
-print('trials', numpy.nonzero(array_band4 > 0))
+
 # data = {'band4': data_in_row}
 # df = pd.DataFrame(data)
 
@@ -95,6 +97,16 @@ print('trials', numpy.nonzero(array_band4 > 0))
 # alt.Chart(source).mark_bar().encode(
 #    alt.X("IMDB_Rating:Q", bin=True),
 #    y='count()',
-# )
+# ) """
 
 # Try to some statistics first, e.g. with numpy
+print("------------------------------------------")
+
+
+print(data1 == data4)
+numpy.savetxt("C:/Users/user/Desktop/remote sensing/main file/AUTOMATIC-ANALYSIS-OF-"
+              "BUILDING-FOOTPRINTS-WITH-VERY-HIGH-RESOLUTION-SATELLITE-IMAGERY/test4.txt", new_array4)
+numpy.savetxt("C:/Users/user/Desktop/remote sensing/main file/AUTOMATIC-ANALYSIS-OF-"
+              "BUILDING-FOOTPRINTS-WITH-VERY-HIGH-RESOLUTION-SATELLITE-IMAGERY/test1.txt", new_array1)
+
+print(data_array)
