@@ -1,10 +1,12 @@
-# Bottom-up microsimulation of object-detection
-# Authors: Godwin Emmanuel, Ervin Wirth
-# No rights reserved
+""" Bottom-up microsimulation of object-detection
+Authors: Godwin Emmanuel, Ervin Wirth
+ No rights reserved """
 
-import gdal
 import numpy
-from matplotlib import pyplot as plt
+from sklearn.cluster import KMeans
+import gdal
+import numpy as np
+import matplotlib.pyplot as plt
 import os
 
 workspace_path = os.path.dirname(__file__) 
@@ -16,69 +18,42 @@ raster_path = workspace_path + "/PL_PS_20200723T0742_ALL_Tile_0_0_qKSm9prB.tif"
               
 dataset = gdal.Open(raster_path, gdal.GA_ReadOnly)
 numpy_array = dataset.ReadAsArray().astype(numpy.float)
+nbands = dataset.RasterCount
 
 # Getting Dataset Information
 print("Driver: {}/{}".format(dataset.GetDriver().ShortName, dataset.GetDriver().LongName))
 print("Size is {} x {} x {}".format(dataset.RasterXSize,
                                     dataset.RasterYSize,
                                     dataset.RasterCount))
-print("Projection is {}".format(dataset.GetProjection()))
-geotransform = dataset.GetGeoTransform()
-if geotransform:
-    print("Origin = ({}, {})".format(geotransform[0], geotransform[3]))
-    print("Pixel Size = ({}, {})".format(geotransform[1], geotransform[5]))
 
 
-
-                    ### Histogram for band 1
+#              Histogram for band 1
 # Read data
 data1a = dataset.GetRasterBand(1).ReadAsArray()
 array_band1a = numpy.array(data1a)
 # Clean zeros from array, transform to vector
 nonzero_vector_band1 = array_band1a[numpy.nonzero(array_band1a)]
-plt.hist(nonzero_vector_band1, bins=10)
+plt.hist(nonzero_vector_band1, bins=107500)
 plt.show()
-# Read data
 
+# create an empty array, each column of the empty array will hold one band of data from the image
+# loop through each band in the image nad add to the data array
+data = np.empty((dataset.RasterXSize*dataset.RasterYSize, nbands))
+for i in range(1, nbands+1):
+    band = dataset.GetRasterBand(i).ReadAsArray()
+    data[:, i-1] = band.flatten()
+print(data.shape)
 
+# set up the kmeans classification, fit, and predict
+km = KMeans(n_clusters=8)
+km.fit(data)
+km.predict(data)
 
-                    ### Start the analysis
+# format the predicted classes to the shape of the original image
+out_data = km.labels_.reshape((dataset.RasterYSize, dataset.RasterXSize))
+print(out_data.shape)
 
-data1 = dataset.GetRasterBand(1).ReadAsArray()
-array_band1 = numpy.array(data1)
-data2 = dataset.GetRasterBand(2).ReadAsArray()
-array_band2 = numpy.array(data2)
-data3 = dataset.GetRasterBand(3).ReadAsArray()
-array_band3 = numpy.array(data3)
-data4 = dataset.GetRasterBand(4).ReadAsArray()
-array_band4 = numpy.array(data4)
-
-# this should be created by using indices
-segment_ids_initial_test = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]]
-
-for i in range(array_band1.shape[0]):
-    print(i)
-    for j in range(array_band1.shape[0]):
-        print(j)
-        test_connections(i, j)
-
-
-def test_connections(i, j):
-#    test east edge
-    if test_similarity(i, j, i + 1, j):
-#       rewrite segmentids
-  # test south-east edge
-#  if test_similarity(i, j, i + 1, j + 1):
-    # rewrite segmentids
-  # test south edge
-    if test_similarity(i, j, i, j + 1):
-#     rewrite segmentids
-
-
-def test_similarity(c1_x, c1_y, c2_x, c2_y):
-  diff_band1 = array_band1[c1_x][c1_y] - array_band1[c2_x][c2_y]
-  diff_band2 = array_band2[c1_x][c1_y] - array_band2[c2_x][c2_y]
-  # ... You should continue the coding
-
-# numpy.savetxt(workspace_path + "/test1.txt", new_array1)
-
+# displaying the output
+plt.figure(figsize=(20, 20))
+plt.imshow(out_data, cmap="hsv")
+plt.show()
