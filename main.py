@@ -14,7 +14,7 @@ workspace_path = os.path.dirname(__file__)
 # raster_path = r"C:\Users\user\Desktop\remote sensing\main file\AUTOMATIC-ANALYSIS-OF-BUILDING-FOOTPRINTS-" \
 #             r"WITH-VERY-HIGH-RESOLUTION-SATELLITE-IMAGERY\PL_PS_20200723T0742_ALL_Tile_0_0_qKSm9prB.tif"
 
-raster_path = workspace_path + "/PL_PS_20200723T0742_ALL_Tile_0_0_qKSm9prB.tif"
+raster_path = workspace_path + "/firstTrialYola.tif"
               
 dataset = gdal.Open(raster_path, gdal.GA_ReadOnly)
 numpy_array = dataset.ReadAsArray().astype(numpy.float)
@@ -33,8 +33,8 @@ data1a = dataset.GetRasterBand(1).ReadAsArray()
 array_band1a = numpy.array(data1a)
 # Clean zeros from array, transform to vector
 nonzero_vector_band1 = array_band1a[numpy.nonzero(array_band1a)]
-plt.hist(nonzero_vector_band1, bins=107500)
-plt.show()
+# plt.hist(nonzero_vector_band1, bins=107500)
+# plt.show()
 
 # create an empty array, each column of the empty array will hold one band of data from the image
 # loop through each band in the image nad add to the data array
@@ -45,7 +45,7 @@ for i in range(1, nbands+1):
 print(data.shape)
 
 # set up the kmeans classification, fit, and predict
-km = KMeans(n_clusters=8)
+km = KMeans(n_clusters=5)
 km.fit(data)
 km.predict(data)
 
