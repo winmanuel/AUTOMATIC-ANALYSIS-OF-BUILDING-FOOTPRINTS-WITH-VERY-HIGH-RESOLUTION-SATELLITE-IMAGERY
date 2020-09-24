@@ -14,7 +14,7 @@ workspace_path = os.path.dirname(__file__)
 # raster_path = r"C:\Users\user\Desktop\remote sensing\main file\AUTOMATIC-ANALYSIS-OF-BUILDING-FOOTPRINTS-" \
 #             r"WITH-VERY-HIGH-RESOLUTION-SATELLITE-IMAGERY\PL_PS_20200723T0742_ALL_Tile_0_0_qKSm9prB.tif"
 
-raster_path = workspace_path + "/firstTrialYola.tif"
+raster_path = workspace_path + "/firstTrialYola2.tif"
               
 dataset = gdal.Open(raster_path, gdal.GA_ReadOnly)
 numpy_array = dataset.ReadAsArray().astype(numpy.float)
@@ -45,7 +45,7 @@ for i in range(1, nbands+1):
 print(data.shape)
 
 # set up the kmeans classification, fit, and predict
-km = KMeans(n_clusters=5)
+km = KMeans(n_clusters=6)
 km.fit(data)
 km.predict(data)
 
