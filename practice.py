@@ -40,3 +40,52 @@ plt.figure(figsize=(20, 20))
 plt.imshow(X_cluster, cmap="hsv")
 
 plt.show()
+
+# -------------------------------------
+#              Histogram for band 1
+# Read data
+data1 = dataset.GetRasterBand(1).ReadAsArray()
+array_band1 = numpy.array(data1)
+# Clean zeros from array, transform to vector
+nonzero_vector_band1 = array_band1[numpy.nonzero(array_band1)]
+plt.hist(nonzero_vector_band1, bins=100)
+plt.title('Red band')
+plt.ylabel('Values')
+plt.show()
+
+#              Histogram for band 2
+# Read data
+data2 = dataset.GetRasterBand(2).ReadAsArray()
+array_band2 = numpy.array(data2)
+# Clean zeros from array, transform to vector
+nonzero_vector_band2 = array_band2[numpy.nonzero(array_band2)]
+plt.hist(nonzero_vector_band2, bins=100)
+plt.title('Green band')
+plt.ylabel('Values')
+plt.show()
+
+#              Histogram for band 3
+# Read data
+data3 = dataset.GetRasterBand(3).ReadAsArray()
+array_band3 = numpy.array(data3)
+# Clean zeros from array, transform to vector
+nonzero_vector_band3 = array_band3[numpy.nonzero(array_band3)]
+plt.hist(nonzero_vector_band1, bins=100)
+plt.title('Blue band')
+plt.ylabel('Values')
+plt.show()
+
+
+# set up the kmeans classification, fit, and predict
+km = KMeans(n_clusters=4)
+km.fit(data)
+km.predict(data)
+
+# format the predicted classes to the shape of the original image
+out_data = km.labels_.reshape((dataset.RasterYSize, dataset.RasterXSize))
+print(out_data.shape)
+
+# displaying the output
+plt.figure(figsize=(20, 20))
+plt.imshow(out_data, cmap="hsv")
+plt.show()
