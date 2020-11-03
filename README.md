@@ -25,7 +25,7 @@ Buildings can be queried from gropus:
 Try to use less amount of Python packages in the long-term-reseach:
 - *numpy* (thats the base): numpy uses Cython calls (fastened with C)
 - and if other packages avoided numpy can be toward fastened with *numba* package which can use GPU 
-- for data visualisation *altair* package advised (in another file)
+- for data visualisation *matplotlib* package advised (in another file)
 
 Used structures:
 - vectors, matrices, arrays, sets, dictionaries, functions (maybe classes)
