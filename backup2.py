@@ -1,5 +1,5 @@
 """ Bottom-up microsimulation of object-detection
-Authors: Godwin Emmanuel, Ervin Wirth
+Authors: Godwin Emmanuel
  No rights reserved """
 
 import numpy
